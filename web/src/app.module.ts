@@ -1,72 +1,98 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { join } from "path";
-import shopify from "./utils/shopify.js";
-import { ProductModule } from "./product/product.module.js";
-import { Request, Response, NextFunction } from "express";
-import { readFileSync } from "fs";
-import GDPRWebhookHandlers from "./utils/gdpr.js";
+import '@shopify/shopify-api/adapters/node';
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ApiVersion } from '@shopify/shopify-api';
+import { ShopifyExpressModule } from '@nestjs-shopify/express';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CacheModule } from '@nestjs/cache-manager';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Keyv } from 'keyv';
+import KeyvRedis from '@keyv/redis';
+import { KeyvCacheableMemory } from 'cacheable';
 
-const STATIC_PATH =
-  process.env.NODE_ENV === "production"
-    ? `${process.cwd()}/frontend/dist`
-    : `${process.cwd()}/frontend/`;
+import { MyRedisSessionStorage } from './services/my-redis-session-storage';
+import { DrawerConfig } from './entities/drawer-config.entity';
+import { RuleEvent } from './entities/rule-event.entity';
+import { Session } from './entities/session.entity';
+import { Shop } from './entities/shop.entity';
+import { UpsellProduct } from './entities/upsell-product.entity';
+import { UpsellRule } from './entities/upsell-rule.entity';
+
+const entities = [
+  DrawerConfig,
+  RuleEvent,
+  Session,
+  Shop,
+  UpsellProduct,
+  UpsellRule,
+];
 
 @Module({
   imports: [
-    ProductModule,
-    ConfigModule.forRoot({
+    CacheModule.registerAsync({
       isGlobal: true,
+      useFactory: () => {
+        return {
+          stores: [
+            new Keyv({
+              store: new KeyvCacheableMemory({
+                ttl: 6000,
+                lruSize: 5000,
+              }),
+            }),
+            new KeyvRedis('redis://localhost:6379'),
+          ],
+        };
+      },
+    }),
+    ConfigModule.forRoot({
+      envFilePath: '.env'
+    }),
+    TypeOrmModule.forRootAsync({
+
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return {
+          type: 'postgres',
+          host: config.getOrThrow('DB_HOST') || 'localhost',
+          port: Number(config.getOrThrow('DB_PORT')) || 5432,
+          username: config.getOrThrow('DB_USER') || 'postgres',
+          password: config.get('DB_PASSWORD') || 'Alpha.01$',
+          database: config.get('DB_NAME') || 'upsell-kit-db',
+          entities: [...entities],
+          synchronize: true,
+          logging: true,
+          autoLoadEntities: true,
+        };
+      },
+    }),
+    ShopifyExpressModule.forRootAsync({
+      provideInjectionTokensFrom: [MyRedisSessionStorage],
+      imports: [ConfigModule],
+      useFactory: (
+        configService: ConfigService,
+        sessionStorage: MyRedisSessionStorage,
+      ) => {
+        return {
+          apiKey: configService.getOrThrow('SHOPIFY_API_KEY'),
+          apiSecretKey: configService.getOrThrow('SHOPIFY_API_SECRET'),
+          apiVersion: ApiVersion.Unstable,
+          hostName: (configService.get('HOST') as string)?.replace(
+            /https:\/\//,
+            '',
+          ),
+          isEmbeddedApp: true,
+          scopes: ['test_scope'],
+          sessionStorage,
+        };
+      },
+
+      inject: [ConfigService, MyRedisSessionStorage],
     }),
   ],
+  controllers: [AppController],
+  providers: [AppService, MyRedisSessionStorage],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    // Authentication Middleware
-    consumer.apply(shopify.auth.begin()).forRoutes({
-      path: shopify.config.auth.path,
-      method: RequestMethod.GET,
-    });
-    consumer
-      .apply(shopify.auth.callback(), shopify.redirectToShopifyOrAppRoot())
-      .forRoutes({
-        path: shopify.config.auth.callbackPath,
-        method: RequestMethod.GET,
-      });
-
-    // Validate Authenticated Session Middleware for Backend Routes
-    consumer
-      .apply(shopify.validateAuthenticatedSession())
-      .forRoutes({ path: "/api/*", method: RequestMethod.ALL });
-
-    // Webhooks
-    consumer
-      .apply(
-        ...shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
-      )
-      .forRoutes({
-        path: shopify.config.webhooks.path,
-        method: RequestMethod.POST,
-      });
-
-    // Ensure Installed On Shop Middleware for Client Routes.
-    // Except for backend routes /api/(.*)
-    consumer
-      .apply(
-        shopify.ensureInstalledOnShop(),
-        (_req: Request, res: Response, _next: NextFunction) => {
-          return res
-            .status(200)
-            .set("Content-Type", "text/html")
-            .send(readFileSync(join(STATIC_PATH, "index.html")));
-        }
-      )
-      .exclude({ path: "/api/(.*)", method: RequestMethod.ALL })
-      .forRoutes({ path: "/*", method: RequestMethod.ALL });
-  }
-}
+export class AppModule {}

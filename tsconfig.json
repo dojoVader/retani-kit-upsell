@@ -1,5 +1,11 @@
 {
-  "include": ["env.d.ts", "**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
+  "include": [
+    "env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".react-router/types/**/*",
+    "node_modules/@shopify/app-bridge-types/dist/index.d.ts"
+  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "strict": true,
@@ -13,7 +19,8 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
     "target": "ES2022",
     "baseUrl": ".",
     "types": ["@react-router/node", "vite/client", "@shopify/polaris-types"],
