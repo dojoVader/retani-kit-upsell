@@ -1,10 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AngularSettings">
+    <option name="useTypesFromServer" value="true" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caac65b4-7163-4f14-b9d8-b4f3419e32f0" name="Changes" comment="Add initial project setup with TypeScript, Express, and Shopify integration" />
+    <list default="true" id="caac65b4-7163-4f14-b9d8-b4f3419e32f0" name="Changes" comment="Add initial project setup with TypeScript, Express, and Shopify integration">
+      <change afterPath="$PROJECT_DIR$/app/routes/app.free-shipping.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routes/app.targeting.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/root.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/root.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/app._index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app._index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/app.additional.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app.additional.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopify.app.toml" beforeDir="false" afterPath="$PROJECT_DIR$/shopify.app.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/nodemon.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/shopify.web.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/constants/adjectives.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/constants/nouns.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/middlewares/app-proxy-extension-sigunature.middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/product/product.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/product/product.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/product/product.service.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/product/product.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/utils/gdpr.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/utils/shopify.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/web/tsconfig.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,23 +54,37 @@
   <component name="CopilotPersistence">
     <persistenceIdMap>
       <entry key="_/home/x64/Documents/Shopify Apps/retani-kit-upsell" value="3F3ojRiaX4r2QuUnpHhnWe9W0LB" />
+      <entry key="_/home/x64/Documents/Shopify Apps/retani-kit-upsell/web/node_modules" value="3FdZKFgxDw2Qc4gFrKJK5MOOLy9" />
     </persistenceIdMap>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "dojoVader"
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="features/ui-shopify-admin" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dojoVader&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/dojoVader/retani-kit-upsell.git",
-    "accountId": "47b2868c-b4d5-4103-94a4-e519978eea61"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dojoVader/retani-kit-upsell.git&quot;,
+    &quot;accountId&quot;: &quot;47b2868c-b4d5-4103-94a4-e519978eea61&quot;
   }
-}]]></component>
+}</component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -44,60 +93,138 @@
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
       <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0001345373976398" />
-      <entry key="S5" value="1.1286411000048586" />
-      <entry key="S10" value="2.2880852418479147" />
-      <entry key="S30" value="7.010378264007458" />
-      <entry key="S60" value="9.838455628086416" />
-      <entry key="M2" value="11.72626675850588" />
-      <entry key="M5" value="13.72189782861804" />
-      <entry key="M10" value="17.605765677707865" />
-      <entry key="M15" value="22.040072810996545" />
-      <entry key="M30" value="34.38850782355753" />
-      <entry key="H1" value="53.213794422440905" />
-      <entry key="H2" value="73.86049062052359" />
-      <entry key="H4" value="90.19093722271312" />
-      <entry key="D1" value="108.63647712097791" />
-      <entry key="W1" value="112.36111156741816" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0000000003267056" />
+      <entry key="S30" value="1.0043835551859424" />
+      <entry key="S60" value="1.2931812210453686" />
+      <entry key="M2" value="3.87918180038555" />
+      <entry key="M5" value="17.106470022292015" />
+      <entry key="M10" value="35.306620076630374" />
+      <entry key="M15" value="46.99584742575569" />
+      <entry key="M30" value="66.92724268116346" />
+      <entry key="H1" value="93.99894411691322" />
+      <entry key="H2" value="142.02185158826944" />
+      <entry key="H4" value="225.43094143182506" />
+      <entry key="D1" value="509.13099011691327" />
+      <entry key="W1" value="629.6154581094407" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="3.473459413831488E-266" />
-      <entry key="S5" value="6.550959152500638E-107" />
-      <entry key="S10" value="8.093799572821554E-54" />
-      <entry key="S30" value="2.007786278663092E-18" />
-      <entry key="S60" value="1.4169637534753995E-9" />
-      <entry key="M2" value="3.764257899607039E-5" />
-      <entry key="M5" value="0.01699307031310549" />
-      <entry key="M10" value="0.13044863007865348" />
-      <entry key="M15" value="0.2596454636890712" />
-      <entry key="M30" value="0.5784896052088506" />
-      <entry key="H1" value="1.090080550373153" />
-      <entry key="H2" value="1.7133371707609357" />
-      <entry key="H4" value="2.2373164799886935" />
-      <entry key="D1" value="2.851827785520011" />
-      <entry key="W1" value="2.9782456528899917" />
+      <entry key="MS500" value="2.212520649681184E-199" />
+      <entry key="S2" value="2.2063325735048766E-50" />
+      <entry key="S5" value="1.7593916338848846E-20" />
+      <entry key="S10" value="2.0535075123880202E-10" />
+      <entry key="S30" value="0.0011956457274626213" />
+      <entry key="S60" value="0.05970293949718519" />
+      <entry key="M2" value="0.42288651264540483" />
+      <entry key="M5" value="1.3729832213421607" />
+      <entry key="M10" value="2.0834043519769003" />
+      <entry key="M15" value="2.4649568769396586" />
+      <entry key="M30" value="3.227486669906131" />
+      <entry key="H1" value="4.767617368197624" />
+      <entry key="H2" value="8.015398516175432" />
+      <entry key="H4" value="14.08489433984928" />
+      <entry key="D1" value="33.2532910327355" />
+      <entry key="W1" value="40.564138548632435" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.7631296044802796" />
-      <entry key="MS500" value="0.9473700705992677" />
-      <entry key="S2" value="0.9867077785593303" />
-      <entry key="S5" value="1.122706044916688" />
-      <entry key="S10" value="2.282612626857964" />
-      <entry key="S30" value="7.005112192663743" />
-      <entry key="S60" value="9.83478619247532" />
-      <entry key="M2" value="11.724120610927233" />
-      <entry key="M5" value="13.737740917671406" />
-      <entry key="M10" value="17.735181442193774" />
-      <entry key="M15" value="22.298717368367452" />
-      <entry key="M30" value="34.96614792135308" />
-      <entry key="H1" value="54.30321783273781" />
-      <entry key="H2" value="75.5733728033808" />
-      <entry key="H4" value="92.4279755237629" />
-      <entry key="D1" value="111.48824887831299" />
-      <entry key="W1" value="115.33934893542472" />
+      <entry key="MS100" value="0.7900413118633771" />
+      <entry key="MS500" value="0.9539595505475581" />
+      <entry key="S2" value="0.9882856515007326" />
+      <entry key="S5" value="0.9952976898141518" />
+      <entry key="S10" value="0.9976460749286163" />
+      <entry key="S30" value="1.004723234130908" />
+      <entry key="S60" value="1.3504831704461873" />
+      <entry key="M2" value="4.293159950800712" />
+      <entry key="M5" value="18.46158124757777" />
+      <entry key="M10" value="37.37165196004763" />
+      <entry key="M15" value="49.44446568879697" />
+      <entry key="M30" value="70.14210529828017" />
+      <entry key="H1" value="98.75566732454887" />
+      <entry key="H2" value="150.02762995598457" />
+      <entry key="H4" value="239.50769930909647" />
+      <entry key="D1" value="542.3813290143493" />
+      <entry key="W1" value="670.1790910681425" />
     </decayedShown>
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@babel/core/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@babel/generator/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@babel/helper-compilation-targets/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@babel/traverse/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@cspotcode/source-map-support/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@eslint-community/eslint-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@eslint/eslintrc/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@inquirer/core/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@isaacs/cliui/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@istanbuljs/load-nyc-config/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@jest/console/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@jest/core/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@jest/fake-timers/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@jest/reporters/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@nestjs/cli/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@nestjs/schematics/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@typescript-eslint/eslint-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@typescript-eslint/project-service/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@typescript-eslint/tsconfig-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@typescript-eslint/type-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@typescript-eslint/typescript-estree/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@typescript-eslint/utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/@typescript-eslint/visitor-keys/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/accepts/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/ajv-formats/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/ajv/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/ansi-escapes/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/anymatch/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/bl/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/body-parser/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/chokidar/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/cliui/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/comment-json/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/cosmiconfig/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/cross-spawn/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/eslint/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/espree/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/execa/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/express/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/finalhandler/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/form-data/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/glob/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/handlebars/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/import-fresh/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/istanbul-lib-instrument/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-circus/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-config/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-environment-node/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-haste-map/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-runner/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-runtime/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-snapshot/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-util/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/jest-worker/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/make-dir/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/mime-types/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/multer/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/p-locate/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/pg-types/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/pretty-format/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/readdirp/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/restore-cursor/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/schema-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/send/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/stack-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/superagent/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/terser-webpack-plugin/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/terser/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/ts-api-utils/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/ts-jest/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/ts-loader/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/ts-node/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/tsconfig-paths/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/typescript-eslint/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/webpack/package.json" />
+    <dismissed value="$PROJECT_DIR$/web/node_modules/wrap-ansi/package.json" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7,
@@ -118,15 +245,19 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
-    "javascript.nodejs.core.library.configured.version": "20.19.0",
-    "javascript.nodejs.core.library.typings.version": "20.19.43",
+    "copilot.chat.legacySessionMetadata.migrated": "true",
+    "git-widget-placeholder": "features/nestjs-upsell-schema",
+    "javascript.nodejs.core.library.configured.version": "22.13.0",
+    "javascript.nodejs.core.library.typings.version": "22.13.17",
     "javascript.preferred.runtime.type.id": "node",
     "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/home/x64/Documents/Shopify Apps/retani-kit-upsell/web/node_modules",
+    "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "/home/x64/.nvm/versions/node/v22.13.0/bin/node",
     "nodejs_package_manager_path": "npm",
     "npm.build.executor": "Run",
     "npm.dev (1).executor": "Run",
@@ -134,13 +265,27 @@
     "npm.dev.executor": "Run",
     "npm.env.executor": "Run",
     "npm.prisma.executor": "Run",
-    "prettierjs.PrettierConfiguration.Package": "/home/x64/Documents/Shopify Apps/retani-kit-upsell/node_modules/prettier",
+    "prettierjs.PrettierConfiguration.Package": "/home/x64/Documents/Shopify Apps/retani-kit-upsell/web/node_modules/fork-ts-checker-webpack-plugin/node_modules/prettier",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "/home/x64/Documents/Shopify Apps/retani-kit-upsell/node_modules/typescript/lib",
+    "ts.external.directory.path": "/home/x64/.cache/JetBrains/WebStorm2026.1/ts-go-fork-embedded/0.0.14",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/routes" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
+      <recent name="$PROJECT_DIR$/backup" />
+    </key>
+  </component>
   <component name="RunManager" selected="npm.dev">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -195,17 +340,17 @@
     <list>
       <item itemvalue="npm.build" />
       <item itemvalue="npm.dev (2)" />
+      <item itemvalue="npm.dev" />
       <item itemvalue="npm.env" />
       <item itemvalue="npm.prisma" />
-      <item itemvalue="npm.dev" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.build" />
-        <item itemvalue="npm.env" />
         <item itemvalue="npm.prisma" />
+        <item itemvalue="npm.env" />
+        <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev (2)" />
+        <item itemvalue="npm.build" />
       </list>
     </recent_temporary>
   </component>
@@ -216,6 +361,7 @@
       </set>
     </attachedChunks>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="caac65b4-7163-4f14-b9d8-b4f3419e32f0" name="Changes" comment="" />
@@ -225,18 +371,59 @@
       <updated>1781313250068</updated>
       <workItem from="1781313252222" duration="1037000" />
       <workItem from="1781346293976" duration="14325000" />
-      <workItem from="1781377203415" duration="3029000" />
+      <workItem from="1781377203415" duration="4567000" />
+      <workItem from="1781445431226" duration="1222000" />
+      <workItem from="1781517783470" duration="339000" />
+      <workItem from="1781541981181" duration="4467000" />
+      <workItem from="1781598791587" duration="1824000" />
+      <workItem from="1781701489472" duration="14949000" />
+      <workItem from="1781740219431" duration="420000" />
+      <workItem from="1781781366808" duration="532000" />
+      <workItem from="1781876010194" duration="1836000" />
+      <workItem from="1781892118059" duration="7209000" />
+      <workItem from="1782030160639" duration="2146000" />
+      <workItem from="1782060698444" duration="7848000" />
+      <workItem from="1782139858855" duration="952000" />
+      <workItem from="1782148629790" duration="147000" />
+      <workItem from="1782212770849" duration="479000" />
+      <workItem from="1782292547022" duration="6333000" />
+      <workItem from="1782314973727" duration="74000" />
+      <workItem from="1782321400083" duration="2168000" />
+      <workItem from="1782326383980" duration="766000" />
+      <workItem from="1782327170328" duration="1376000" />
+      <workItem from="1782328875220" duration="854000" />
+      <workItem from="1782330746541" duration="165000" />
+      <workItem from="1782330943504" duration="1586000" />
+      <workItem from="1782332549272" duration="2203000" />
+      <workItem from="1782336938761" duration="3594000" />
+      <workItem from="1782342130627" duration="664000" />
+      <workItem from="1782406842488" duration="679000" />
+      <workItem from="1782424574831" duration="2094000" />
+      <workItem from="1782464166267" duration="197000" />
+      <workItem from="1782472781425" duration="4728000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:prettier" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:prisma" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:vite" />
+  </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
+      <path value="$PROJECT_DIR$/web" />
     </ignored-roots>
     <MESSAGE value="Add initial project setup with TypeScript, Express, and Shopify integration" />
     <option name="LAST_COMMIT_MESSAGE" value="Add initial project setup with TypeScript, Express, and Shopify integration" />
+  </component>
+  <component name="VueSettings">
+    <option name="useTypesFromServer" value="true" />
   </component>
 </project>
