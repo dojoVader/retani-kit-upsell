@@ -1,4 +1,64 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { LoaderFunctionArgs } from "react-router";
+import { useLoaderData } from "react-router";
+import { authenticate } from "../shopify.server";
+import { useAuthenticatedFetch } from "app/utils/useAuthenticatedFetch";
+import redis from "../redis";
+
+const SAVE_BAR_ID = "drawer-design-save-bar";
+
+interface DrawerDesignSettings {
+  drawerPosition: string;
+  slotPosition: string;
+  maxOffersShown: number;
+  showProductImage: boolean;
+  showStarRating: boolean;
+  headingFont: string;
+  accentColor: string;
+  ctaButtonText: string;
+}
+
+const DEFAULT_DRAWER_DESIGN_SETTINGS: DrawerDesignSettings = {
+  drawerPosition: "right",
+  slotPosition: "below",
+  maxOffersShown: 2,
+  showProductImage: true,
+  showStarRating: false,
+  headingFont: "inherit",
+  accentColor: "#2c6ecb",
+  ctaButtonText: "Add to cart",
+};
+
+// Matches ShopSettingsSection.APPEARANCE in web/src/entities/types/shop-settings.types.ts
+const APPEARANCE_SECTION = "appearance";
+
+// Mirrors ShopSettingService#cacheKey in web/src/modules/shop-settings/services/shop-setting.service.ts
+function drawerDesignCacheKey(shopDomain: string): string {
+  return `shop:settings:${APPEARANCE_SECTION}_${shopDomain}`;
+}
+
+// Loads the drawer design settings for the shop resolved from the App Bridge session,
+// reading straight from the same Redis cache the NestJS backend populates.
+async function getDrawerDesignSettings(shopDomain: string): Promise<DrawerDesignSettings> {
+  try {
+    const cached = await redis.get(drawerDesignCacheKey(shopDomain));
+    if (!cached) {
+      return DEFAULT_DRAWER_DESIGN_SETTINGS;
+    }
+
+    const { value } = JSON.parse(cached) as { value: Partial<DrawerDesignSettings> };
+    return { ...DEFAULT_DRAWER_DESIGN_SETTINGS, ...value };
+  } catch {
+    return DEFAULT_DRAWER_DESIGN_SETTINGS;
+  }
+}
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const settings = await getDrawerDesignSettings(session.shop);
+
+  return { settings };
+};
 
 function ProBadge() {
   return (
@@ -75,15 +135,92 @@ function SettingRow({
 }
 
 export default function DrawerDesignPage() {
-  const [drawerPosition, setDrawerPosition] = useState("right");
-  const [upsellSlot, setUpsellSlot] = useState("below");
-  const [maxOffers, setMaxOffers] = useState(2);
-  const [showProductImage, setShowProductImage] = useState(true);
-  const [showStarRatings, setShowStarRatings] = useState(false);
+  const { settings } = useLoaderData<typeof loader>();
+  const shopifyFetch = useAuthenticatedFetch();
 
-  const [headingFont, setHeadingFont] = useState("inherit");
-  const [accentColor, setAccentColor] = useState("#2c6ecb");
-  const [ctaText, setCtaText] = useState("Add to cart");
+  const [drawerPosition, setDrawerPosition] = useState(settings.drawerPosition);
+  const [upsellSlot, setUpsellSlot] = useState(settings.slotPosition);
+  const [maxOffers, setMaxOffers] = useState(settings.maxOffersShown);
+  const [showProductImage, setShowProductImage] = useState(settings.showProductImage);
+  const [showStarRatings, setShowStarRatings] = useState(settings.showStarRating);
+
+  const [headingFont, setHeadingFont] = useState(settings.headingFont);
+  const [accentColor, setAccentColor] = useState(settings.accentColor);
+  const [ctaText, setCtaText] = useState(settings.ctaButtonText);
+  const [saving, setSaving] = useState(false);
+
+  // Baseline used to detect unsaved changes and to restore on discard.
+  const savedSettingsRef = useRef(settings);
+
+  useEffect(() => {
+    const saved = savedSettingsRef.current;
+    const isDirty =
+      drawerPosition !== saved.drawerPosition ||
+      upsellSlot !== saved.slotPosition ||
+      maxOffers !== saved.maxOffersShown ||
+      showProductImage !== saved.showProductImage ||
+      showStarRatings !== saved.showStarRating ||
+      headingFont !== saved.headingFont ||
+      accentColor !== saved.accentColor ||
+      ctaText !== saved.ctaButtonText;
+
+    if (isDirty) {
+      void shopify.saveBar.show(SAVE_BAR_ID);
+    } else {
+      void shopify.saveBar.hide(SAVE_BAR_ID);
+    }
+  }, [
+    drawerPosition,
+    upsellSlot,
+    maxOffers,
+    showProductImage,
+    showStarRatings,
+    headingFont,
+    accentColor,
+    ctaText,
+  ]);
+
+  const handleDiscard = () => {
+    const saved = savedSettingsRef.current;
+    setDrawerPosition(saved.drawerPosition);
+    setUpsellSlot(saved.slotPosition);
+    setMaxOffers(saved.maxOffersShown);
+    setShowProductImage(saved.showProductImage);
+    setShowStarRatings(saved.showStarRating);
+    setHeadingFont(saved.headingFont);
+    setAccentColor(saved.accentColor);
+    setCtaText(saved.ctaButtonText);
+    void shopify.saveBar.hide(SAVE_BAR_ID);
+  };
+
+  const handleSave = async () => {
+    const payload: DrawerDesignSettings = {
+      drawerPosition,
+      slotPosition: upsellSlot,
+      maxOffersShown: maxOffers,
+      showProductImage,
+      showStarRating: showStarRatings,
+      headingFont,
+      accentColor,
+      ctaButtonText: ctaText,
+    };
+
+    setSaving(true);
+    try {
+      await shopifyFetch("shop-settings/appearance", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      savedSettingsRef.current = payload;
+      void shopify.saveBar.hide(SAVE_BAR_ID);
+      shopify.toast.show("Drawer design settings saved");
+    } catch {
+      shopify.toast.show("Failed to save drawer design settings", { isError: true });
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     // subheading is a valid s-page runtime prop; cast needed because polaris-types omits it
@@ -93,6 +230,15 @@ export default function DrawerDesignPage() {
         subheading: "Layout and branding for the cart drawer.",
       } as any)}
     >
+      <ui-save-bar id={SAVE_BAR_ID} discardConfirmation>
+        <button variant="primary" loading={saving} disabled={saving} onClick={handleSave}>
+          Save
+        </button>
+        <button disabled={saving} onClick={handleDiscard}>
+          Discard
+        </button>
+      </ui-save-bar>
+
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
         {/* Layout card */}
         <Card heading="Layout">

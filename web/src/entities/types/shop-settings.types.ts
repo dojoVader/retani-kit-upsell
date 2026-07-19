@@ -1,3 +1,11 @@
+export enum ShopSettingsSection {
+  APPEARANCE = 'appearance',
+  BEHAVIOUR = 'behaviour',
+  PLAN = 'plan',
+  TARGET = 'target',
+  FREE_SHIPPING = 'freeShipping',
+}
+
 export interface AppearanceSettings {
   drawerPosition:   'left' | 'right';
   slotPosition:     'belowItems' | 'aboveCheckout' | 'stickyFooter';

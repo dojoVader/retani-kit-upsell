@@ -1,14 +1,119 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { LoaderFunctionArgs } from "react-router";
+import { useLoaderData } from "react-router";
+import { authenticate } from "../shopify.server";
+import { useAuthenticatedFetch } from "app/utils/useAuthenticatedFetch";
+import redis from "../redis";
 
 const PREVIEW_CART_AMOUNT = 36.0;
+const SAVE_BAR_ID = "free-shipping-settings-save-bar";
+
+interface FreeShippingSettings {
+  showFreeShippingBar: boolean;
+  thresholdAmount: number;
+  belowThresholdMessage: string;
+  atThresholdMessage: string;
+}
+
+const DEFAULT_FREE_SHIPPING_SETTINGS: FreeShippingSettings = {
+  showFreeShippingBar: true,
+  thresholdAmount: 50,
+  belowThresholdMessage: "Spend {amount} more for free shipping",
+  atThresholdMessage: "You've unlocked free shipping",
+};
+
+// Matches ShopSettingsSection.FREE_SHIPPING in web/src/entities/types/shop-settings.types.ts
+const FREE_SHIPPING_SECTION = "freeShipping";
+
+// Mirrors ShopSettingService#cacheKey in web/src/modules/shop-settings/services/shop-setting.service.ts
+function freeShippingCacheKey(shopDomain: string): string {
+  return `shop:settings:${FREE_SHIPPING_SECTION}_${shopDomain}`;
+}
+
+// Loads the free shipping settings for the shop resolved from the App Bridge session,
+// reading straight from the same Redis cache the NestJS backend populates.
+async function getFreeShippingSettings(shopDomain: string): Promise<FreeShippingSettings> {
+  try {
+    const cached = await redis.get(freeShippingCacheKey(shopDomain));
+    if (!cached) {
+      return DEFAULT_FREE_SHIPPING_SETTINGS;
+    }
+
+    const { value } = JSON.parse(cached) as { value: Partial<FreeShippingSettings> };
+    return { ...DEFAULT_FREE_SHIPPING_SETTINGS, ...value };
+  } catch {
+    return DEFAULT_FREE_SHIPPING_SETTINGS;
+  }
+}
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { session } = await authenticate.admin(request);
+  const settings = await getFreeShippingSettings(session.shop);
+
+  return { settings };
+};
 
 export default function FreeShippingPage() {
-  const [showBar, setShowBar] = useState(true);
-  const [threshold, setThreshold] = useState(50);
-  const [belowMessage, setBelowMessage] = useState(
-    "Spend {amount} more for free shipping"
-  );
-  const [atMessage, setAtMessage] = useState("You've unlocked free shipping");
+  const { settings } = useLoaderData<typeof loader>();
+  const shopifyFetch = useAuthenticatedFetch();
+
+  const [showBar, setShowBar] = useState(settings.showFreeShippingBar);
+  const [threshold, setThreshold] = useState(settings.thresholdAmount);
+  const [belowMessage, setBelowMessage] = useState(settings.belowThresholdMessage);
+  const [atMessage, setAtMessage] = useState(settings.atThresholdMessage);
+  const [saving, setSaving] = useState(false);
+
+  // Baseline used to detect unsaved changes and to restore on discard.
+  const savedSettingsRef = useRef(settings);
+
+  useEffect(() => {
+    const saved = savedSettingsRef.current;
+    const isDirty =
+      showBar !== saved.showFreeShippingBar ||
+      threshold !== saved.thresholdAmount ||
+      belowMessage !== saved.belowThresholdMessage ||
+      atMessage !== saved.atThresholdMessage;
+
+    if (isDirty) {
+      void shopify.saveBar.show(SAVE_BAR_ID);
+    } else {
+      void shopify.saveBar.hide(SAVE_BAR_ID);
+    }
+  }, [showBar, threshold, belowMessage, atMessage]);
+
+  const handleDiscard = () => {
+    const saved = savedSettingsRef.current;
+    setShowBar(saved.showFreeShippingBar);
+    setThreshold(saved.thresholdAmount);
+    setBelowMessage(saved.belowThresholdMessage);
+    setAtMessage(saved.atThresholdMessage);
+    void shopify.saveBar.hide(SAVE_BAR_ID);
+  };
+
+  const handleSave = async () => {
+    const payload: FreeShippingSettings = {
+      showFreeShippingBar: showBar,
+      thresholdAmount: threshold,
+      belowThresholdMessage: belowMessage,
+      atThresholdMessage: atMessage,
+    };
+
+    setSaving(true);
+    try {
+      await shopifyFetch("shop-settings/freeShipping", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      savedSettingsRef.current = payload;
+      void shopify.saveBar.hide(SAVE_BAR_ID);
+      shopify.toast.show("Free shipping settings saved");
+    } catch {
+      shopify.toast.show("Failed to save free shipping settings", { isError: true });
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const remaining = Math.max(0, threshold - PREVIEW_CART_AMOUNT);
   const progress = Math.min(100, (PREVIEW_CART_AMOUNT / threshold) * 100);
@@ -29,6 +134,15 @@ export default function FreeShippingPage() {
   return (
     // subheading is a valid s-page runtime prop; cast needed because polaris-types omits it
     <s-page {...({ heading: "Free shipping bar", subheading: "Encourage larger carts with a progress bar toward free shipping." } as any)}>
+      <ui-save-bar id={SAVE_BAR_ID} discardConfirmation>
+        <button variant="primary" loading={saving} disabled={saving} onClick={handleSave}>
+          Save
+        </button>
+        <button disabled={saving} onClick={handleDiscard}>
+          Discard
+        </button>
+      </ui-save-bar>
+
       {/* Settings card */}
       <div
         style={{

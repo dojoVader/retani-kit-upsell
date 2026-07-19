@@ -23,6 +23,8 @@ import { AuthHandlerModule } from './auth_handler/auth-handler.module';
 import { MyAuthHandler } from './auth_handler/my-auth-handler';
 import { UpsellAttribution } from './entities/upsell-atrribution';
 import { RulesModule } from './modules/rules/rules.module';
+import {ShopSettings} from "./entities/shop-settings.entity";
+import { ShopSettingsModule } from './modules/shop-settings/shop-settings.module';
 
 const entities = [
   DrawerConfig,
@@ -32,6 +34,7 @@ const entities = [
   UpsellProduct,
   UpsellRule,
   UpsellAttribution,
+  ShopSettings
 ];
 
 @Module({
@@ -109,6 +112,7 @@ const entities = [
       },
     }),
     RulesModule,
+    ShopSettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService, MyRedisSessionStorage, MyAuthHandler],
