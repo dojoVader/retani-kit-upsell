@@ -34,9 +34,7 @@ export class RuleEvent {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => UpsellRule, (rule) => rule.ruleEvents, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => UpsellRule, { onDelete: 'CASCADE' })
   rule: UpsellRule;
 
   @ManyToOne(() => Shop, (shop) => shop.ruleEvents, { onDelete: 'CASCADE' })

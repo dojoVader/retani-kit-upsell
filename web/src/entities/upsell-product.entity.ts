@@ -23,8 +23,6 @@ export class UpsellProduct {
   @Column({ default: 0 })
   displayOrder: number;
 
-  @ManyToOne(() => UpsellRule, (rule) => rule.upsellProducts, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => UpsellRule, { onDelete: 'CASCADE' })
   rule: UpsellRule;
 }

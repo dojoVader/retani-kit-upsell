@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FieldRow, TabButton, ActionRow } from "./elements";
 import { CartThreshold } from "./cart-type/CartThreshold";
+import { useAuthenticatedFetch } from "./../utils/useAuthenticatedFetch";
+import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
 
 type Tab = "trigger" | "offer" | "appearance";
 
@@ -95,7 +97,6 @@ function TriggerTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -224,7 +225,6 @@ function OfferTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -297,7 +297,6 @@ function AppearanceTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -305,7 +304,13 @@ function AppearanceTab({
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
 export default function ThreshRule() {
+
+
+  // Shopify Authenticated Fetch
+  const shopifyFetch = useAuthenticatedFetch();
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
+  const [ruleType, setRuleType] = useState<string>("threshold");
 
   // Trigger
   const [threshold, setThreshold] = useState("100");
@@ -328,6 +333,39 @@ export default function ThreshRule() {
   const [slotPosition, setSlotPosition] = useState("below-cart-items");
   const [showProductImage, setShowProductImage] = useState(true);
   const [showStarRatings, setShowStarRatings] = useState(false);
+
+  // UseEffect listen to the Submit Functionality
+
+  const submitRules = () => {
+    console.log("Submitting to the Server....")
+    const response = shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
+      method: 'POST',
+      body: JSON.stringify({
+          type: ruleType,
+          config: {
+            threshold,
+            triggerMoment,
+            excludeCollections,
+            showProgressBar,
+            completionMessage,
+            productSelection,
+            headline,
+            discountType,
+            discountValue,
+            priority,
+            cooldown,
+            abTest,
+            ctaButtonText,
+            slotPosition,
+            showProductImage,
+            showStarRatings,
+          }
+      })
+    })
+    response.then(data => {
+      console.log(data.json())
+    })
+}
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: "24px", alignItems: "start" }}>
@@ -375,6 +413,8 @@ export default function ThreshRule() {
             showStarRatings={showStarRatings} onShowStarRatings={setShowStarRatings}
           />
         )}
+
+        <ActionRow onSave={() => submitRules()} />
       </div>
 
       {/* Right: live cart preview */}

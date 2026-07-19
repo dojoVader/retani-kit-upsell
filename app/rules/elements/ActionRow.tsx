@@ -1,4 +1,4 @@
-export function ActionRow({ onDiscard }: { onDiscard?: () => void }) {
+export function ActionRow({ onDiscard , onSave}: { onDiscard?: () => void , onSave?: () => void }) {
   return (
     <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px", paddingTop: "20px" }}>
       <button
@@ -16,6 +16,7 @@ export function ActionRow({ onDiscard }: { onDiscard?: () => void }) {
         Discard
       </button>
       <button
+        onClick={onSave}
         style={{
           background: "#202223",
           border: "none",

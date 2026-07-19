@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { HeadersFunction, LoaderFunctionArgs } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
 import Upsell from "../intents/Upsell";
+import { useAuthenticatedFetch } from "app/utils/useAuthenticatedFetch";
+import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
+
+
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+
   await authenticate.admin(request);
   return null;
 };
@@ -34,23 +39,7 @@ const initialSteps : StepInterface[] = [
     completed: false,
     actionLabel: "Create rule",
     actionPrimary: true,
-  },
-  {
-    id: 3,
-    title: "Set a free shipping threshold",
-    description: "Nudge shoppers toward a larger cart.",
-    completed: false,
-    actionLabel: "Set up",
-    actionPrimary: false,
-  },
-  {
-    id: 4,
-    title: "Customize the drawer",
-    description: "Match colors and layout to your theme.",
-    completed: false,
-    actionLabel: "Customize",
-    actionPrimary: false,
-  },
+  }
 ];
 
 const initialMetrics = [
@@ -61,17 +50,39 @@ const initialMetrics = [
 ];
 
 export default function Index() {
+
+  const shopifyRequest = useAuthenticatedFetch();
   const [steps, setSteps] = useState(initialSteps);
+  const [completedCount, setCompleteCount] = useState(0);
+  const [progressPercent, setProgressPercent] = useState(0);
   const [metrics] = useState(initialMetrics);
   const [hasRules] = useState(false);
 
-  const completedCount = steps.filter((s) => s.completed).length;
-  const progressPercent = (completedCount / steps.length) * 100;
+  useEffect(() => {
+    setCompleteCount(steps.filter((s) => s.completed).length);
+    setProgressPercent((completedCount / steps.length) * 100)
+  },[steps])
+
+  useEffect(() => {
+    shopifyRequest(BACKEND_ENDPOINTS.GET_RULES, { method: 'GET' }).then((data) => {
+      const { data: dataset } = data;
+      if (dataset.length > 0) {
+        setSteps(initialSteps.map((item) => ({
+          ...item,
+          completed: dataset.length
+        })))
+      }
+    });
+
+  },[])
+
+
 
   const markStepComplete = (id: number) => {
     switch(id){
       case 2:
-        shopify.modal.show("upsell-modal");
+      // Navigate to the Create Rule Interface
+      open('/app/upsell', '_self');
       break;
     }
   };

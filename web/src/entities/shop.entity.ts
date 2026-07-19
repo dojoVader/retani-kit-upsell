@@ -39,7 +39,7 @@ export class Shop {
   @OneToOne(() => DrawerConfig, (config) => config.shop, { cascade: true })
   drawerConfig: DrawerConfig;
 
-  @OneToMany(() => UpsellRule, (rule) => rule.shop)
+  @OneToMany(() => UpsellRule, (rule) => rule.session)
   upsellRules: UpsellRule[];
 
   @OneToMany(() => RuleEvent, (event) => event.shop)

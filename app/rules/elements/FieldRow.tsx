@@ -6,6 +6,13 @@ const badgeStyle: Record<string, React.CSSProperties> = {
   pro: { background: "#f4f0ff", color: "#6b47d6", border: "1px solid #d2c0f9" },
 };
 
+function humanizeLabel(name: string): string {
+  return name
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .replace(/^./, (char) => char.toUpperCase());
+}
+
 export function FieldRow({
   name,
   badge,
@@ -30,8 +37,8 @@ export function FieldRow({
     >
       <div style={{ minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "monospace", fontWeight: "600", fontSize: "14px", color: "#202223" }}>
-            {name}
+          <span style={{ fontWeight: "600", fontSize: "14px", color: "#202223" }}>
+            {humanizeLabel(name)}
           </span>
           <span
             style={{

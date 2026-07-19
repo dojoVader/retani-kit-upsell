@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApiVersion } from '@shopify/shopify-api';
 import { ShopifyExpressModule } from '@nestjs-shopify/express';
+import { AuthStrategy, ShopifyAuthModule } from '@nestjs-shopify/auth';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,6 +19,10 @@ import { Session } from './entities/session.entity';
 import { Shop } from './entities/shop.entity';
 import { UpsellProduct } from './entities/upsell-product.entity';
 import { UpsellRule } from './entities/upsell-rule.entity';
+import { AuthHandlerModule } from './auth_handler/auth-handler.module';
+import { MyAuthHandler } from './auth_handler/my-auth-handler';
+import { UpsellAttribution } from './entities/upsell-atrribution';
+import { RulesModule } from './modules/rules/rules.module';
 
 const entities = [
   DrawerConfig,
@@ -26,10 +31,12 @@ const entities = [
   Shop,
   UpsellProduct,
   UpsellRule,
+  UpsellAttribution,
 ];
 
 @Module({
   imports: [
+    RulesModule,
     CacheModule.registerAsync({
       isGlobal: true,
       useFactory: () => {
@@ -50,7 +57,6 @@ const entities = [
       envFilePath: '.env'
     }),
     TypeOrmModule.forRootAsync({
-
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
@@ -63,11 +69,12 @@ const entities = [
           database: config.get('DB_NAME') || 'upsell-kit-db',
           entities: [...entities],
           synchronize: true,
-          logging: true,
+          logging: false,
           autoLoadEntities: true,
         };
       },
     }),
+    TypeOrmModule.forFeature([Session, Shop]),
     ShopifyExpressModule.forRootAsync({
       provideInjectionTokensFrom: [MyRedisSessionStorage],
       imports: [ConfigModule],
@@ -91,8 +98,19 @@ const entities = [
 
       inject: [ConfigService, MyRedisSessionStorage],
     }),
+    ShopifyAuthModule.forRootAsyncOffline(AuthStrategy.TokenExchange, {
+      imports: [AuthHandlerModule],
+      inject: [MyAuthHandler],
+      useFactory: (afterAuthHandler: MyAuthHandler) => {
+        return {
+          returnHeaders: true,
+          afterAuthHandler,
+        };
+      },
+    }),
+    RulesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, MyRedisSessionStorage],
+  providers: [AppService, MyRedisSessionStorage, MyAuthHandler],
 })
 export class AppModule {}

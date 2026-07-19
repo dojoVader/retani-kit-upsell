@@ -12,20 +12,20 @@ export class MyRedisSessionStorage implements SessionStorage {
   ) {}
 
   async storeSession(session: Session): Promise<boolean> {
-    await this.cacheManager.set(
-      `session:${session.id}`,
-      JSON.stringify(session),
-    );
+    await this.cacheManager.set(`session:${session.id}`, session);
 
     // Store session to a shop depending on the type of session e.g POS, Admin, Mobile
-    const previousShopSession = await this.cacheManager.get(
-      `shop_sessions:${session.shop}`,
-    );
-    const values = JSON.parse(previousShopSession) || ([] as unknown);
-    await this.cacheManager.set(
-      `shop_sessions:${session.shop}`,
-      JSON.stringify([...values, session.id]),
-    );
+    const previousShopSession: string | null =
+      (await this.cacheManager.get(`shop_sessions:${session.shop}`)) ?? null;
+    console.log(previousShopSession);
+    if (previousShopSession) {
+      const values: string[] = JSON.parse(previousShopSession) as string[];
+      await this.cacheManager.set(`shop_sessions:${session.shop}`, [
+        ...values,
+        session.id,
+      ]);
+    }
+
     return true;
   }
 
