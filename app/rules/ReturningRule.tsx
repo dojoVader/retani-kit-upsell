@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FieldRow, TabButton, ActionRow } from "./elements";
 import { CartReturning } from "./cart-type/CartReturning";
+import { useAuthenticatedFetch } from "./../utils/useAuthenticatedFetch";
+import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
 
 type Tab = "trigger" | "offer" | "appearance";
 
@@ -103,7 +105,6 @@ function TriggerTab({
           </select>
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -211,7 +212,6 @@ function OfferTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -282,12 +282,12 @@ function AppearanceTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
 
 export default function ReturningRule() {
+  const shopifyFetch = useAuthenticatedFetch();
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
 
   // Trigger
@@ -310,6 +310,38 @@ export default function ReturningRule() {
   const [slotPosition, setSlotPosition] = useState("below-cart-items");
   const [showProductImage, setShowProductImage] = useState(true);
   const [showStarRatings, setShowStarRatings] = useState(false);
+
+  const submitRules = async () => {
+    try {
+      await shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
+        method: "POST",
+        body: JSON.stringify({
+          type: "returning",
+          config: {
+            minPastOrders,
+            excludeAlreadyPurchased,
+            maxDaysSinceLastOrder,
+            priority,
+            cooldown,
+            recommendationSource,
+            offerProductId,
+            headline,
+            discountType,
+            discountValue,
+            oneClickAdd,
+            ctaButtonText,
+            slotPosition,
+            showProductImage,
+            showStarRatings,
+          },
+        }),
+      });
+      shopify.toast.show("Returning buyer rule saved");
+      open("/app", "_self");
+    } catch {
+      shopify.toast.show("Failed to save returning buyer rule", { isError: true });
+    }
+  };
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: "24px", alignItems: "start" }}>
@@ -355,6 +387,8 @@ export default function ReturningRule() {
             showStarRatings={showStarRatings} onShowStarRatings={setShowStarRatings}
           />
         )}
+
+        <ActionRow onSave={() => submitRules()} />
       </div>
 
       <div style={{ position: "sticky", top: "16px" }}>

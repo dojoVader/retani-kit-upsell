@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FieldRow, TabButton, ActionRow } from "./elements";
 import { CartProduct } from "./cart-type/CartProduct";
+import { useAuthenticatedFetch } from "./../utils/useAuthenticatedFetch";
+import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
 
 type Tab = "trigger" | "offer" | "appearance";
 
@@ -91,7 +93,6 @@ function TriggerTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -277,7 +278,6 @@ function OfferTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -348,12 +348,12 @@ function AppearanceTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
 
 export default function ProductRule() {
+  const shopifyFetch = useAuthenticatedFetch();
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
 
   // Trigger
@@ -381,6 +381,43 @@ export default function ProductRule() {
   const [slotPosition, setSlotPosition] = useState("below-cart-items");
   const [showProductImage, setShowProductImage] = useState(true);
   const [showStarRatings, setShowStarRatings] = useState(false);
+
+  const submitRules = async () => {
+    try {
+      await shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
+        method: "POST",
+        body: JSON.stringify({
+          type: "product",
+          config: {
+            triggerType,
+            triggerProductId,
+            minQty,
+            excludeIfOfferInCart,
+            excludeCollections,
+            recommendationSource,
+            offerProductId,
+            headline,
+            discountType,
+            discountValue,
+            showRating,
+            oneClickAdd,
+            offerSlotPosition,
+            priority,
+            cooldown,
+            abTest,
+            ctaButtonText,
+            slotPosition,
+            showProductImage,
+            showStarRatings,
+          },
+        }),
+      });
+      shopify.toast.show("Product rule saved");
+      open("/app", "_self");
+    } catch {
+      shopify.toast.show("Failed to save product rule", { isError: true });
+    }
+  };
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: "24px", alignItems: "start" }}>
@@ -431,6 +468,8 @@ export default function ProductRule() {
             showStarRatings={showStarRatings} onShowStarRatings={setShowStarRatings}
           />
         )}
+
+        <ActionRow onSave={() => submitRules()} />
       </div>
 
       <div style={{ position: "sticky", top: "16px" }}>

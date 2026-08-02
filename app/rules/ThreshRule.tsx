@@ -336,35 +336,37 @@ export default function ThreshRule() {
 
   // UseEffect listen to the Submit Functionality
 
-  const submitRules = () => {
-    console.log("Submitting to the Server....")
-    const response = shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
-      method: 'POST',
-      body: JSON.stringify({
-          type: ruleType,
-          config: {
-            threshold,
-            triggerMoment,
-            excludeCollections,
-            showProgressBar,
-            completionMessage,
-            productSelection,
-            headline,
-            discountType,
-            discountValue,
-            priority,
-            cooldown,
-            abTest,
-            ctaButtonText,
-            slotPosition,
-            showProductImage,
-            showStarRatings,
-          }
-      })
-    })
-    response.then(data => {
-      console.log(data.json())
-    })
+  const submitRules = async () => {
+    try {
+      await shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
+        method: 'POST',
+        body: JSON.stringify({
+            type: ruleType,
+            config: {
+              threshold,
+              triggerMoment,
+              excludeCollections,
+              showProgressBar,
+              completionMessage,
+              productSelection,
+              headline,
+              discountType,
+              discountValue,
+              priority,
+              cooldown,
+              abTest,
+              ctaButtonText,
+              slotPosition,
+              showProductImage,
+              showStarRatings,
+            }
+        })
+      });
+      shopify.toast.show("Threshold rule saved");
+      open("/app", "_self");
+    } catch {
+      shopify.toast.show("Failed to save threshold rule", { isError: true });
+    }
 }
 
   return (

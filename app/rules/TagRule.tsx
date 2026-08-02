@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FieldRow, TabButton, ActionRow } from "./elements";
 import { CartTag } from "./cart-type/CartTag";
+import { useAuthenticatedFetch } from "./../utils/useAuthenticatedFetch";
+import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
 
 type Tab = "trigger" | "offer" | "appearance";
 
@@ -102,7 +104,6 @@ function TriggerTab({
           </select>
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -210,7 +211,6 @@ function OfferTab({
           </select>
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -281,12 +281,12 @@ function AppearanceTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
 
 export default function TagRule() {
+  const shopifyFetch = useAuthenticatedFetch();
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
 
   // Trigger
@@ -309,6 +309,38 @@ export default function TagRule() {
   const [slotPosition, setSlotPosition] = useState("below-cart-items");
   const [showProductImage, setShowProductImage] = useState(true);
   const [showStarRatings, setShowStarRatings] = useState(false);
+
+  const submitRules = async () => {
+    try {
+      await shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
+        method: "POST",
+        body: JSON.stringify({
+          type: "tag",
+          config: {
+            requiredTag,
+            newCustomersOnly,
+            excludeCollections,
+            priority,
+            cooldown,
+            offerProductId,
+            headline,
+            discountType,
+            discountValue,
+            oneClickAdd,
+            offerSlotPosition,
+            ctaButtonText,
+            slotPosition,
+            showProductImage,
+            showStarRatings,
+          },
+        }),
+      });
+      shopify.toast.show("Customer tag rule saved");
+      open("/app", "_self");
+    } catch {
+      shopify.toast.show("Failed to save customer tag rule", { isError: true });
+    }
+  };
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: "24px", alignItems: "start" }}>
@@ -354,6 +386,8 @@ export default function TagRule() {
             showStarRatings={showStarRatings} onShowStarRatings={setShowStarRatings}
           />
         )}
+
+        <ActionRow onSave={() => submitRules()} />
       </div>
 
       <div style={{ position: "sticky", top: "16px" }}>
