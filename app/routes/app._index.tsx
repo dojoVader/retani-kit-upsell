@@ -5,6 +5,7 @@ import { authenticate } from "../shopify.server";
 import Upsell from "../intents/Upsell";
 import { useAuthenticatedFetch } from "app/utils/useAuthenticatedFetch";
 import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
+import UpsellTable, { type RuleRow } from "../components/UpsellTable";
 
 
 
@@ -49,6 +50,69 @@ const initialMetrics = [
   { label: "Upsell conv. rate", value: null as string | null },
 ];
 
+const initialRules: RuleRow[] = [
+  {
+    id: 1,
+    icon: "delivery",
+    color: "blue",
+    title: "Free shipping nudge",
+    description: "Cart below £50 → show progress bar",
+    type: "Threshold",
+    revenue: "£1,840",
+    clicks: "3,210",
+    conv: "18%",
+    status: "active",
+  },
+  {
+    id: 2,
+    icon: "arrow-right",
+    color: "purple",
+    title: "Complete your run",
+    description: "Footwear SKU → suggest socks & insoles",
+    type: "Product-based",
+    revenue: "£960",
+    clicks: "1,870",
+    conv: "22%",
+    status: "active",
+  },
+  {
+    id: 3,
+    icon: "gift-card",
+    color: "orange",
+    title: "Bundle & save",
+    description: "3-item bundle with 20% off",
+    type: "Bundle",
+    revenue: "£720",
+    clicks: "1,340",
+    conv: "14%",
+    status: "active",
+  },
+  {
+    id: 4,
+    icon: "export",
+    color: "purple",
+    title: "Last-chance offer",
+    description: "On checkout click → 15% off add-on",
+    type: "Last chance",
+    revenue: "£340",
+    clicks: "890",
+    conv: "9%",
+    status: "paused",
+  },
+  {
+    id: 5,
+    icon: "person",
+    color: "purple",
+    title: "VIP members exclusive",
+    description: "Customer tag \"vip\" → exclusive item",
+    type: "Customer tag",
+    revenue: "£280",
+    clicks: "540",
+    conv: "28%",
+    status: "active",
+  },
+];
+
 export default function Index() {
 
   const shopifyRequest = useAuthenticatedFetch();
@@ -57,6 +121,7 @@ export default function Index() {
   const [progressPercent, setProgressPercent] = useState(0);
   const [metrics] = useState(initialMetrics);
   const [hasRules] = useState(false);
+  const [rules] = useState(initialRules);
 
   useEffect(() => {
     setCompleteCount(steps.filter((s) => s.completed).length);
@@ -339,6 +404,9 @@ export default function Index() {
           </div>
         ))}
       </div>
+
+      {/* Upsell rules table */}
+      <UpsellTable rules={rules} />
     </s-page>
   );
 }

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FieldRow, TabButton, ActionRow } from "./elements";
 import { CartTimer } from "./cart-type/CartTimer";
+import { useAuthenticatedFetch } from "./../utils/useAuthenticatedFetch";
+import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
 
 type Tab = "trigger" | "offer" | "appearance";
 
@@ -74,7 +76,6 @@ function TriggerTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -180,7 +181,6 @@ function OfferTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -251,12 +251,12 @@ function AppearanceTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
 
 export default function TimerRule() {
+  const shopifyFetch = useAuthenticatedFetch();
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
 
   // Trigger
@@ -277,6 +277,36 @@ export default function TimerRule() {
   const [slotPosition, setSlotPosition] = useState("below-cart-items");
   const [showProductImage, setShowProductImage] = useState(true);
   const [showStarRatings, setShowStarRatings] = useState(false);
+
+  const submitRules = async () => {
+    try {
+      await shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
+        method: "POST",
+        body: JSON.stringify({
+          type: "time",
+          config: {
+            minCartValue,
+            oncePerSession,
+            priority,
+            offerProductId,
+            headline,
+            discountType,
+            discountValue,
+            offerCtaButtonText,
+            countdownTimer,
+            ctaButtonText,
+            slotPosition,
+            showProductImage,
+            showStarRatings,
+          },
+        }),
+      });
+      shopify.toast.show("Time-based rule saved");
+      open("/app", "_self");
+    } catch {
+      shopify.toast.show("Failed to save time-based rule", { isError: true });
+    }
+  };
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: "24px", alignItems: "start" }}>
@@ -320,6 +350,8 @@ export default function TimerRule() {
             showStarRatings={showStarRatings} onShowStarRatings={setShowStarRatings}
           />
         )}
+
+        <ActionRow onSave={() => submitRules()} />
       </div>
 
       <div style={{ position: "sticky", top: "16px" }}>

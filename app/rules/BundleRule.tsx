@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FieldRow, TabButton, ActionRow } from "./elements";
 import { CartBundle } from "./cart-type/CartBundle";
+import { useAuthenticatedFetch } from "./../utils/useAuthenticatedFetch";
+import { BACKEND_ENDPOINTS } from "app/utils/endpoints";
 
 type Tab = "trigger" | "offer" | "appearance";
 
@@ -61,7 +63,6 @@ function TriggerTab({
           </div>
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -181,7 +182,6 @@ function OfferTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
@@ -252,12 +252,12 @@ function AppearanceTab({
           />
         }
       />
-      <ActionRow />
     </div>
   );
 }
 
 export default function BundleRule() {
+  const shopifyFetch = useAuthenticatedFetch();
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
 
   // Trigger
@@ -279,6 +279,37 @@ export default function BundleRule() {
   const [slotPosition, setSlotPosition] = useState("below-cart-items");
   const [showProductImage, setShowProductImage] = useState(true);
   const [showStarRatings, setShowStarRatings] = useState(false);
+
+  const submitRules = async () => {
+    try {
+      await shopifyFetch(BACKEND_ENDPOINTS.SAVE_RULES, {
+        method: "POST",
+        body: JSON.stringify({
+          type: "bundle",
+          config: {
+            sourceCollection,
+            excludeIfBundleInCart,
+            minCartValue,
+            recommendationSource,
+            maxBundleItems,
+            bundleDiscount,
+            bundleDiscountValue,
+            showCompleteTheSetLabel,
+            priority,
+            abTest,
+            ctaButtonText,
+            slotPosition,
+            showProductImage,
+            showStarRatings,
+          },
+        }),
+      });
+      shopify.toast.show("Bundle rule saved");
+      open("/app", "_self");
+    } catch {
+      shopify.toast.show("Failed to save bundle rule", { isError: true });
+    }
+  };
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: "24px", alignItems: "start" }}>
@@ -323,6 +354,8 @@ export default function BundleRule() {
             showStarRatings={showStarRatings} onShowStarRatings={setShowStarRatings}
           />
         )}
+
+        <ActionRow onSave={() => submitRules()} />
       </div>
 
       <div style={{ position: "sticky", top: "16px" }}>

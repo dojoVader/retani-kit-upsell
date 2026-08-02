@@ -7,16 +7,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caac65b4-7163-4f14-b9d8-b4f3419e32f0" name="Changes" comment="Implement upsell rules management with backend endpoints, entity updates, and service integration">
-      <change afterPath="$PROJECT_DIR$/web/src/modules/shop-settings/controller/shop-settings.controller.ts" afterDir="false" />
+    <list default="true" id="caac65b4-7163-4f14-b9d8-b4f3419e32f0" name="Changes" comment="Implement rule submission functionality for Bundle, Product, Returning, Tag, Thresh, and Timer rules">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/app.behaviour.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app.behaviour.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/app.drawer-design.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app.drawer-design.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/app.free-shipping.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app.free-shipping.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/app.targeting.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app.targeting.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/entities/types/shop-settings.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/entities/types/shop-settings.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/app._index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/app._index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/rules/BundleRule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/rules/BundleRule.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/rules/ProductRule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/rules/ProductRule.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/rules/ReturningRule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/rules/ReturningRule.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/rules/TagRule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/rules/TagRule.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/rules/ThreshRule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/rules/ThreshRule.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/rules/TimerRule.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/rules/TimerRule.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,61 +72,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000000000470946" />
-      <entry key="MS500" value="1.0112909288762815" />
-      <entry key="S2" value="1.5587647241901759" />
-      <entry key="S5" value="2.631783757285505" />
-      <entry key="S10" value="3.8460570069278877" />
-      <entry key="S30" value="5.5759503386679325" />
-      <entry key="S60" value="6.3334702437961825" />
-      <entry key="M2" value="7.7101440720733345" />
-      <entry key="M5" value="12.898678744461662" />
-      <entry key="M10" value="18.812637610191963" />
-      <entry key="M15" value="22.611417384414178" />
-      <entry key="M30" value="30.346331926356118" />
-      <entry key="H1" value="40.86895617070486" />
-      <entry key="H2" value="52.5159129328098" />
-      <entry key="H4" value="68.86961255534405" />
-      <entry key="D1" value="421.747971866783" />
-      <entry key="W1" value="976.4637859273472" />
+      <entry key="MS100" value="1.392450543965396" />
+      <entry key="MS500" value="2.30901443904361" />
+      <entry key="S2" value="4.2970923862934" />
+      <entry key="S5" value="5.224397988547948" />
+      <entry key="S10" value="5.891620859594094" />
+      <entry key="S30" value="8.478852396980953" />
+      <entry key="S60" value="10.558438424267962" />
+      <entry key="M2" value="12.884916033659476" />
+      <entry key="M5" value="18.662703306455267" />
+      <entry key="M10" value="24.914647052393896" />
+      <entry key="M15" value="28.89345450577836" />
+      <entry key="M30" value="36.86688484973366" />
+      <entry key="H1" value="47.54792976905745" />
+      <entry key="H2" value="59.31051898545445" />
+      <entry key="H4" value="75.73549372959128" />
+      <entry key="D1" value="428.61286100413287" />
+      <entry key="W1" value="983.4191605135918" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
-      <entry key="S2" value="1.0159889629163617E-92" />
-      <entry key="S5" value="1.594981301433987E-37" />
-      <entry key="S10" value="3.993721699660591E-19" />
-      <entry key="S30" value="7.364206069295643E-7" />
-      <entry key="S60" value="8.581495248087971E-4" />
-      <entry key="M2" value="0.02929418926696748" />
-      <entry key="M5" value="0.2436211559760601" />
-      <entry key="M10" value="0.4950027593904357" />
-      <entry key="M15" value="0.6408820559580811" />
-      <entry key="M30" value="0.9986546169752512" />
-      <entry key="H1" value="1.6707123010162648" />
-      <entry key="H2" value="2.6731380659770383" />
-      <entry key="H4" value="5.381005624142745" />
-      <entry key="D1" value="60.21595544541922" />
-      <entry key="W1" value="126.15670486532393" />
+      <entry key="S2" value="1.0277243026073391E-98" />
+      <entry key="S5" value="6.378971334822307E-40" />
+      <entry key="S10" value="2.5256625536326732E-20" />
+      <entry key="S30" value="2.9339887330871456E-7" />
+      <entry key="S60" value="5.41663062529387E-4" />
+      <entry key="M2" value="0.023273655976864902" />
+      <entry key="M5" value="0.22220214676883662" />
+      <entry key="M10" value="0.47274206221809084" />
+      <entry key="M15" value="0.6215210787890941" />
+      <entry key="M30" value="0.983454313069537" />
+      <entry key="H1" value="1.6579487734722458" />
+      <entry key="H2" value="2.6629076736971458" />
+      <entry key="H4" value="5.370698904387291" />
+      <entry key="D1" value="60.19671725487887" />
+      <entry key="W1" value="126.1509461659197" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="7.198580164367547E-4" />
-      <entry key="MS500" value="0.2388870398870752" />
-      <entry key="S2" value="1.108785455661448" />
-      <entry key="S5" value="2.2659430435840435" />
-      <entry key="S10" value="3.549076835906561" />
-      <entry key="S30" value="5.423494865234721" />
-      <entry key="S60" value="6.247060371248528" />
-      <entry key="M2" value="7.685801630417908" />
-      <entry key="M5" value="13.105391049394598" />
-      <entry key="M10" value="19.28136837609665" />
-      <entry key="M15" value="23.231994306853455" />
-      <entry key="M30" value="31.332533669413678" />
-      <entry key="H1" value="42.53203391144743" />
-      <entry key="H2" value="55.18437450689755" />
-      <entry key="H4" value="74.2473381468329" />
-      <entry key="D1" value="481.9595274986287" />
-      <entry key="W1" value="1102.6191438720941" />
+      <entry key="MS100" value="1.3450167840670957" />
+      <entry key="MS500" value="2.288153225631614" />
+      <entry key="S2" value="4.282234015681346" />
+      <entry key="S5" value="5.214916741469747" />
+      <entry key="S10" value="5.867290098617336" />
+      <entry key="S30" value="8.414030514064313" />
+      <entry key="S60" value="10.501104143300415" />
+      <entry key="M2" value="12.863918174290921" />
+      <entry key="M5" value="18.850503002153946" />
+      <entry key="M10" value="25.361915561762633" />
+      <entry key="M15" value="29.495025366043738" />
+      <entry key="M30" value="37.83794498426477" />
+      <entry key="H1" value="49.19823647976092" />
+      <entry key="H2" value="61.968735049568124" />
+      <entry key="H4" value="81.10290235084452" />
+      <entry key="D1" value="488.8051770920759" />
+      <entry key="W1" value="1109.5687594261817" />
     </decayedShown>
   </component>
   <component name="PackageJsonUpdateNotifier">
@@ -335,10 +334,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
         <item itemvalue="npm.start" />
         <item itemvalue="npm.prisma" />
         <item itemvalue="npm.env" />
-        <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev (2)" />
       </list>
     </recent_temporary>
@@ -346,7 +345,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-WS-262.8665.259" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-WS-262.8665.341" />
       </set>
     </attachedChunks>
   </component>
@@ -413,7 +412,10 @@
       <workItem from="1784280398112" duration="631000" />
       <workItem from="1784321018060" duration="10262000" />
       <workItem from="1784414572055" duration="11370000" />
-      <workItem from="1784467129791" duration="6577000" />
+      <workItem from="1784467129791" duration="12219000" />
+      <workItem from="1784489703795" duration="1669000" />
+      <workItem from="1784543571752" duration="92000" />
+      <workItem from="1785666276913" duration="2501000" />
     </task>
     <task id="LOCAL-00001" summary="Shopify NestJS package implemented with support for Modal API">
       <option name="closed" value="true" />
@@ -447,7 +449,15 @@
       <option name="project" value="LOCAL" />
       <updated>1784453487013</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Implement shop settings management with controller, service, and TypeORM integration">
+      <option name="closed" value="true" />
+      <created>1784478200794</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1784478200794</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -472,7 +482,9 @@
     <MESSAGE value="Add README.md with project overview, architecture, and setup instructions" />
     <MESSAGE value="Added Decorators for Rules Controller" />
     <MESSAGE value="Implement upsell rules management with backend endpoints, entity updates, and service integration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement upsell rules management with backend endpoints, entity updates, and service integration" />
+    <MESSAGE value="Implement shop settings management with controller, service, and TypeORM integration" />
+    <MESSAGE value="Implement rule submission functionality for Bundle, Product, Returning, Tag, Thresh, and Timer rules" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement rule submission functionality for Bundle, Product, Returning, Tag, Thresh, and Timer rules" />
   </component>
   <component name="VueSettings">
     <option name="useTypesFromServer" value="true" />
